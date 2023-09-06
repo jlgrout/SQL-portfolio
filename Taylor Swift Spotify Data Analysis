@@ -1,0 +1,76 @@
+--Grouping the songs by album 
+SELECT album, COUNT(name) as song_count
+FROM taylor_swift_spotify
+GROUP BY album;
+
+--What is her most popular album?
+SELECT album, SUM(popularity) AS total_album_popularity
+FROM taylor_swift_spotify
+GROUP BY album
+ORDER BY total_album_popularity DESC;
+
+--What are her most popular "From the Vault" songs?
+SELECT name, album, popularity
+FROM taylor_swift_spotify
+WHERE name LIKE '%From the Vault%'
+ORDER BY popularity DESC;
+
+--Are songs with higher danceability more popular? 
+--Did in Big Query 
+-Are songs with a higher danceability more popular? 
+SELECT 
+  CORR(danceability, popularity) AS correlation
+ FROM `my-first-sandbox-project1712.taylor_swift.spotify_data` ;
+
+ --Correlation: 0.0565338743665
+
+ --Are happier songs more popular (songs with higher valence score)?
+
+ SELECT 
+  CORR(valence, popularity) AS correlation
+ FROM `my-first-sandbox-project1712.taylor_swift.spotify_data`;
+
+ --Correlation: -0.063924661641
+
+ --Are "speechier" songs more popular? 
+
+SELECT 
+  CORR(speechiness, popularity) AS correlation
+ FROM `my-first-sandbox-project1712.taylor_swift.spotify_data`;
+
+--Correlation: 0.112564814089030
+
+--Are songs with a faster tempo more popular? 
+
+SELECT 
+  CORR(tempo, popularity) AS correlation
+ FROM `my-first-sandbox-project1712.taylor_swift.spotify_data`;
+
+ --Correlation: -0.000991267348
+
+
+
+--What are songs with the highest and lowest "speechiness"? 
+SELECT name, album, speechiness
+FROM taylor_swift_spotify
+ORDER BY speechiness DESC;
+
+SELECT name, album, speechiness
+FROM taylor_swift_spotify
+ORDER BY speechiness;
+
+--Which of her songs have the highest and lowest valence? 
+SELECT name, album, valence
+FROM taylor_swift_spotify
+ORDER BY valence DESC;
+
+SELECT name, album, valence
+FROM taylor_swift_spotify
+ORDER BY valence;
+
+--What is track 13 on each album (since the number 13 is so important to Taylor Swift)? Are there similarities? 
+SELECT *
+FROM `my-first-sandbox-project1712.taylor_swift.spotify_data`
+WHERE track_number = 13;
+
+
