@@ -1,0 +1,65 @@
+--Dataset: TikTok User Profiles Dataset
+--Source: Manish Kumar; https://www.kaggle.com/datasets/manishkumar7432698/tiktok-profiles-data
+--Queried using: SQLite
+
+--Who are the top influencers on TikTok?
+
+SELECT account_id, followers
+FROM TikTokprofilesdatasetPublicwebdata
+ORDER BY followers DESC
+LIMIT 10;
+
+--Which accounts have the highest engagement per follower ratio?
+
+SELECT account_id, followers, awg_engagement_rate, (awg_engagement_rate/ followers) AS EngagementPerFollower
+FROM TikTokprofilesdatasetPublicwebdata
+ORDER BY EngagementPerFollower DESC 
+LIMIT 10;
+
+--Returned accounts with 1-15 followers. Adding a WHERE clause to see accounts with larger # of followers
+
+SELECT account_id, followers, awg_engagement_rate, (awg_engagement_rate/ followers) AS EngagementPerFollower
+FROM TikTokprofilesdatasetPublicwebdata
+WHERE followers > 10000
+ORDER BY EngagementPerFollower DESC 
+LIMIT 10;
+
+SELECT account_id, followers, awg_engagement_rate, (awg_engagement_rate/ followers) AS EngagementPerFollower
+FROM TikTokprofilesdatasetPublicwebdata
+WHERE followers > 100000
+ORDER BY EngagementPerFollower DESC 
+LIMIT 10;
+
+SELECT account_id, followers, awg_engagement_rate, (awg_engagement_rate/ followers) AS EngagementPerFollower
+FROM TikTokprofilesdatasetPublicwebdata
+WHERE followers > 1000000
+ORDER BY EngagementPerFollower DESC 
+LIMIT 10;
+
+--Trend: As follower count increases, engagement per follower generally decreases. 
+--Recommendation: If advertising goal is higher engagement, it may be best to use smaller follower accounts, but if goal is to reach a broader audience, larger accounts would be best. 
+
+--What is the distribution of account verification status? Verified accounts might have larger credibility for advertising.
+--Looking at distinct ids
+
+SELECT DISTINCT is_verified
+FROM TikTokprofilesdatasetPublicwebdata;
+
+--There are 2 distinct ids: 0 and 1. 
+--Looking at only verified accountsTikTokprofilesdatasetPublicwebdata
+
+SELECT account_id, followers, is_verified
+FROM TikTokprofilesdatasetPublicwebdata
+WHERE is_verified = 1;
+
+SELECT COUNT(is_verified)
+FROM TikTokprofilesdatasetPublicwebdata
+WHERE is_verified = 1;
+
+--Returned 19 verified accounts
+
+--Which accounts have external links in their bio? These accounts may be open to promotion.
+
+SELECT account_id, bio_link
+FROM TikTokprofilesdatasetPublicwebdata 
+WHERE bio_link IS NOT NULL;
